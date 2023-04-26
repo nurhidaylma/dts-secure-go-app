@@ -1,0 +1,79 @@
+definitions:
+  response.JSONBadReqResult:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data: {}
+      message:
+        example: Wrong Parameter
+        type: string
+    type: object
+  response.JSONIntServerErrReqResult:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data: {}
+      message:
+        example: Error Database
+        type: string
+    type: object
+  response.RegisterUser:
+    properties:
+      email:
+        example: alicia@mail.com
+        type: string
+      full_name:
+        example: Alicia Keys
+        type: string
+      password:
+        example: Password123
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register user by email and password
+      parameters:
+      - description: Sample payload
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/response.RegisterUser'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONBadReqResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: object
+                message:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONIntServerErrReqResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: object
+                message:
+                  type: string
+              type: object
+      summary: Register user
+swagger: "2.0"
